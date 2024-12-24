@@ -14,6 +14,14 @@ public class TaskManager {
             System.out.println("3. Delete Task");
             System.out.println("4. Exit");
             System.out.print("Enter your choice: ");
+
+            // check if the input is an integer
+            if (!scanner.hasNextInt()) {
+                System.out.println("Invalid choice. Please try again.");
+                scanner.nextLine();
+                continue;
+            }
+            // get the choice from the user
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -36,15 +44,15 @@ public class TaskManager {
         }
     }
 
-    // add task
+    // add task 
     public static void addTask(Scanner scanner) {
-        System.out.print("Enter task name:");
+        System.out.print("Enter task name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter description:");
+        System.out.print("Enter description: ");
         String description = scanner.nextLine();
-        System.out.print("Enter task due date:");
+        System.out.print("Enter task due date: ");
         String dueDate = scanner.nextLine();
-        System.out.print("Enter task priority level:");
+        System.out.print("Enter task priority level: (High, Medium, Low) ");
         String priority = scanner.nextLine();
 
         tasks.add(new Task(name, description, dueDate, priority));
@@ -53,8 +61,14 @@ public class TaskManager {
 
     // view task
     public static void viewTask() {
-        System.out.println("Your tasks:");
+        // check if the list is empty
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks found in your list.");
+            return;
+        }
+
         // print each task in the list
+        System.out.println("Your tasks: ");
         for (Task task : tasks) {
             System.out.println(task);
         }
@@ -62,6 +76,25 @@ public class TaskManager {
 
     // delete task
     public static void deleteTask() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter task name to delete: ");
+        String name = scanner.nextLine();
 
+        // find the task with the given name
+        Task task = null;
+        for (Task t : tasks) {
+            if (t.getName().equals(name)) {
+                task = t;
+                break;
+            }
+        }
+
+        // remove the task from the list
+        if (task != null) {
+            tasks.remove(task);
+            System.out.println("Task deleted successfully!");
+        } else {
+            System.out.println("Task not found.");
+        }
     }
 }
